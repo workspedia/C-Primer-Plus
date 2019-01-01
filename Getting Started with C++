@@ -1,0 +1,40 @@
+1 outline 
+(1) history & philosophy
+(2) procedural versus object-oriented programming
+(3) add object-oriented concepts to C
+(4) add generic programming concepts to C
+(5) standards
+(6) creating a program
+
+2 introduction
+C ancestry brings to C++  efficient, compact, fast, portable
+Object-oriented heritage   a fresh programming methodology, designed to cope with the escalating complexity
+template features bring yet   genetric programming
+triple heritage is both a blessing and a bane
+
+be poised to learn C++, mind-stretching efforts, resilient, nook, cranny
+
+3 origins
+ evolve, involve, revolve
+ mainframe computer, spawn, discipline, address hardware matters
+ These gifts helped make C the dominant programming language in the 1980s.
+ Meanwhile, the 1980s witnessed the growth of a new programming paradigm: OOP
+ 
+ 4 The C Language
+ assembly language
+ graft
+ computer languages deal with two concepts, data and algorithms
+ C is a procedual language, which means it emphasizes the algorithm side of programmming.
+ A program prescribes a set of procedures for the computer to follow
+ structured programming, C include features to facilitate this approach
+ Top-down design
+ 
+ 5 The C++ shift: OOP
+ OOP emphasizes the data
+ property rotate
+ The process of going from a lower level of organization, such as classes, to a higher level, such as program designs, is called bottom-up 
+ programming.
+ 
+ 6 C++ and Generic Programming
+ 
+ 7 Portability and 
