@@ -37,4 +37,8 @@ be poised to learn C++, mind-stretching efforts, resilient, nook, cranny
  
  6 C++ and Generic Programming
  
- 7 Portability and 
+ 7 Portability and Standards
+ If you can recompile the program without making changes and it runs without a hitch, we say the program is portable.
+ 
+ 8 the mechanics of creating a program
+ WRITE -> source code -> COMPILER -> object code -> LINKER(startup code & library code) -> executable code
