@@ -10,4 +10,51 @@
 (9) cin input
 (10) functions
 
-2
+2 C++ initiation
+facility
+C++ is case sensitive; that is,it discriminates between uppercase characters and lowercase characters.
+stripped of the trimmings
+the function header describes the interface between a function and the function that calls it
+parentheses, phase
+Using void in the parentheses is an explicit way of saying that the function takes no arguments.
+concession, encounter
+
+3 C++ comments
+double slash //
+C++ also recognizes C comments, which are enclosed between /* and */ symbols.
+try sticking to the C++ style
+
+4 The c++ preprocessor and iostream file
+#include <iostream>
+This directive causes the preprocessor to add the contents of the iostream file to your program.
+In essence, replace
+composite file
+dropping the h extension and prefixing the filename with a c
+iostream.h, math.h, iostream, cmath
+
+use iostream instead of iostream.h, you should use the following namespace directive 
+in h-free header files, 
+
+5 cout
+insertion operator << bitwise left-shift operator  operator overloading
+*** endl is a special C++ notation that represents the importment concept of beginning a new line
+cause the screen cursor to move to the beginning of the next line
+\n, endl   One difference is that endl guarantees the output will be flushed
+cout << carrots
+first, cout replace carrots with its value. second, it translates the proper output character
+
+6 variable
+carrots is called a variable because you can change its value
+The C++ style for declaring variables is to declare a variable as close to its first use as possible
+remarkable, internally
+25 stored as a binary value rather than store each digit separately
+cout ostream class
+
+7 function
+C++ function come in two varieties: those with return values and those without them
+
+
+
+
+
+
