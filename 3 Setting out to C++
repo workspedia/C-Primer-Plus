@@ -37,6 +37,7 @@ in h-free header files,
 
 5 cout
 insertion operator << bitwise left-shift operator  operator overloading
+>> extraction operator
 *** endl is a special C++ notation that represents the importment concept of beginning a new line
 cause the screen cursor to move to the beginning of the next line
 \n, endl   One difference is that endl guarantees the output will be flushed
@@ -52,6 +53,38 @@ cout ostream class
 
 7 function
 C++ function come in two varieties: those with return values and those without them
+The library files contain the compiled code for the function, whereas the header files contain the proyotypes.
+
+英文标点符号
+句点：英国英语（BrE）：Full Stop；美国英语（AmE）：Period，“ . ”
+问号：Question Mark，“ ? ”
+感叹号：Exclamation Mark，“ ! ”
+逗号：Comma，“ , ”
+冒号：Colon，“  : ”
+省略号：Ellipsis (众数：Ellipses)，“ ... ”
+分号：Semicolon，“ ; ”
+连字符：Hyphen，“ - ”
+连接号：En Dash，“ – ”
+破折号：Em Dash，“ — ”
+括号：Parentheses，
+　　　小括号（圆括号）“ ( ) ”（parenthesis; round brackets）；
+　　　中括号“ [ ] ”（square brackets）；
+　　　大括号“ { } ”（brackets; braces）
+引号：Quotation Marks，
+　　　双引号“ " ”（quote）；
+　　　单引号“ ' ”（single quotation marks）
+缩写及所有格符号：Apostrophe，“ ' ”
+
+explicit, implicit
+5 to the eighth power
+C++ does not allow you to embed one function definition inside another.
+return 0 provide the return value and terminate the function.
+main()'s return value to the operating system
+main is not a keyword.
+C++ programmers are blessed (or cursed) with myriad options when naming functions
+convention, hallmark
+
+#include <iostream> causes the contents of the iostream file to be substituted for this directive before final compilation.
 
 
 
