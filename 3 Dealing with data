@@ -56,6 +56,32 @@ the value is converted to the type of the receiving variable.
 loss of precision, out of range
 C++ uses truncation (discarding the fractional part) and not rounding (finding the closest integer value) when converting floating-point value to integer types.
 *** short fowl = chickens + ducks;
+a  If either operand is type  long double, the other operand is converted to  long double. 
+b  Otherwise,if either operand is  double, the other operand is converted to  double. 
+c  Otherwise,if either operand is  float, the other operand is converted to  float.
+d  Otherwise,the operands are integer types and the integral promotions are made. 
+e  In that case, if both operands are signed or if both are unsigned, and one is of lower rank than the other, it is converted to the higher rank. 
+f  Otherwise,one operand is signed and one is unsigned. If the unsigned operand is of higher rank than the signed operand, the latter is converted to the type of the unsigned operand. 
+g  Otherwise,if the signed type can represent all values of the unsigned type, the unsigned operand is converted to the type of the signed type. 
+h  Otherwise,both operands are converted to the unsigned version of the signed type.
+
+(2) conversions in passing arguments
+type casts 类型强制转换
+C++ empowers you to force type conversions explicitly via type cast mechanism.
+(long) thorn // C style
+long (thorn) // pure C++
+adding 19.99 to 11.99 yields 31.98.
+2 reasons to use type casting.
+first, you might have values that are stored as type double but used to calculate a type int value. 
+second, the capability to compel data in one form to meet a different expectation.
+
+5 auto declarations
+C++ 11 allows compiler to deduce a type from the type from the type of an initialization value.
+astray
+
+6 Answer
+The distinction between  char grade = 65 and char grade = 'A':
+ char grade = 65 only on systems using ASCII code.
 
 
 
