@@ -1,0 +1,48 @@
+1 outline
+(1) array
+(2) C-style string, string-class, getline(), get(), mixing string and numeric input
+(3) structure, union
+(4) enumerations
+(5) pointers
+(6) dynamic memory, new and delete, dynamic array, structure
+
+far-reaching, bastion
+
+2 array
+typeName arrayName[arraySize];
+arraySize must be an integer constant
+subscript, index
+the compiler does not check to see if you use a valid subscript
+
+the element takes on whatever value previously resided at that location in memory.
+
+if partially initialize an array, the compiler sets the remaining elements to zero
+int counts[10] = {};  // all elements set to zero
+
+3 strings
+A string is a series of characters stored in consecutive bytes of memory.
+char dog[8] = {'b', 'e', 'a', 'u', 'x', ' ', 'i', 'i'};  // not a string
+char cat[8] = {'f', 'e', 'a', 's', 's', 'p', 'i', '\0'};  // a string, '\0' null character
+cout << dog; //cout 8 letters and then keeps marching through memory byte by byre, until it reaches '\0'
+cout << cat; // display 7 characters
+
+char bird[] = "bubbles"; //string literal to initialize array, always include the '\0'
+char boss[8] = "Bozo"; // remaining elements set to '\0'
+
+ ***  's' is a shorthand notation for the code for a character, in ASCII system, 'S' is another way of writing 83
+ ***  "s" represents the string consisting of 2 characters, the 's' and '\0'
+ ***  concatenate string literals
+ cout << "l would give" " you an apple.\n";
+ cout << "l would give you an apple.\n";
+ cout << "l would give"
+ " you an apple.\n";
+ 
+ strlen(), sizeof()
+ minimum array size is strlen(arr) + 1
+ 
+ conceal, remove the veils and shows that string input can be tricky
+ 
+ The cin use whitespace, spaces, tabs, and newlines, to delineate a string 
+ 
+ 
+ 
