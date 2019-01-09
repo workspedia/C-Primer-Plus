@@ -80,8 +80,118 @@ char boss[8] = "Bozo"; // remaining elements set to '\0'
  str3 = str1 + str2;
  
  string age;
-	getline(cin, age); // tells where to find input
-	cout << age;
+ getline(cin, age); // tells where to find input
+ cout << age;
+ 
+ 3 structure 
+ *** The structure type is a stepping stone to that bulwark of C++ OOP.
+ struct inflat
+ {
+ 	char name[20];
+	float volume;
+	double price;
+ };
+ 
+ inflat goose = { "hello world", 1.2, 29.2}; 
+ inflat guest = 
+ {
+ 	"hello world",
+	1.8,
+	29.9
+ };
+ 
+ cout << goose.price +guest.price << endl;
+ external declaration, local declaration
+ 
+ function arguments, return value, assignment operator
+ 
+ defer
+ 
+ *** You can combine the definition of a structure form with the creation of structure variables.
+ *** However,keeping them separated makes a program easier to read and follow.
+ struct inflat
+ {
+ 	char name[20];
+	float volume;
+	double price;
+ }goose = { "hello world", 1.2, 29.2},
+ guest = {"hello world", 1.8, 29.9};
+ 
+ cout << goose.price +guest.price << endl;
+ 
+ *** You can not subsequently create other variables of the same type.
+ struct 
+ {
+ 	char name[20];
+	float volume;
+	double price;
+ }goose = { "hello world", 1.2, 29.2},
+ guest = {"hello world", 1.8, 29.9};
+ 
+ *** Unlike C structures, C++ structures can have member functions in addition to member variables.
+ 
+ Union
+ The size of union is the size of its largest member.
+ One use for a union is to save space when a data item can use two or more formats but never simultaneously.
+ Because the union is anonymous, id_num and id_char are treated as two members of prize that share the same address.
+ 
+ gigabyte, terabyte, premium
+ 
+ 4 enumeration
+ The syntax for enum resembles structure syntax.
+ enum spectrum {red, orange,yellow, green, blue, violet, indigo, ultraviolet}; // makes spectrum the name of a new type
+ spectrum band = red; // By default, enumerators are assigned integer values starting with 0
+ cout << band<< endl;
+ 
+ 5 pointers
+ (1) pointers and numbers
+ *** if use a numeric value as an address, you should use a type cast to convert the number to appropriate address type
+ int * pt;
+ pt = (int *) 0xB800000
+ cout << *pt
+ 
+ (2) allocating memory with new
+ when you allocate unnamed memory during runtime to hold values, pointers become the only access to that memory.
+ int * pn = new int; // once to specify the kind of memory requested and once to declare a suitable pointer.
+ cout << pn;
+ 
+ *** ordinary variable have their values stored in a memory region called the stack
+ whereas the memory allocated by new is in a region called the heap or free store
+ 
+ (3) freeing memory with delete
+ int * ps  = new int;
+ delete ps; // This removes the memory to which ps points
+ you can reuse ps to point to another new allocation.
+ you cannot use delete to free memory created by declaring ordinary variables
+ 
+ (4) using new to create dynamic arrays
+ *** If you create an array by declaring it, the space is allocated when the program is compiled.
+ *** Allocating the array during compile time is called static binding
+ *** dynamic binding, array is created while the program is running
+ int * psome = new int [10]; // the new operator returns the address of the first elementof the block
+ delete [] psome; // the [] tells the program that it should free the whole array, not just the first element 
+ ***** the program keeps track of the memory, but that information isn't available.
+ *** Use the pointer as if it were an array name, psome[0], *psome 
+ *** C/C++ handle arrays internally by using pointers
+??? difference: p3 = p3+1 // okay for pointers, wrong for array names
+sizeof(pointer), sizeof(arrName)
+
+ int psome[3] = {};
+ cout << &psome << endl << &psome + 1 << endl; // display address of whole array
+ cout << psome << endl << psome + 1; // display &tell[0]
+ 
+ (5) pointers and strings
+  special relationship between arrays and pointers extends to C-style strings.
+  char flower[10] = "rose";
+  if you give the address of a character, it prints everything from that character to the first '\0'
+  cout << "a flower", "a flower" is also an address
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
