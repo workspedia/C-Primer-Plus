@@ -184,12 +184,78 @@ sizeof(pointer), sizeof(arrName)
   special relationship between arrays and pointers extends to C-style strings.
   char flower[10] = "rose";
   if you give the address of a character, it prints everything from that character to the first '\0'
-  cout << "a flower", "a flower" is also an address
+  cout << "a flower"; "a flower" is also an address
+  cout << &"hello";
+  Normally, if you give cout a pointer, it prints an address. 
+  But if the pointer is type char *, cout display the pointed-to string.
+  If you want to see the address of the string, you have to type cast the pointer to another pointer type, such as int *
+  
+  	char animal[20] = "beauty";
+
+	char * string1 = { };
+	cout << ( int * ) string1 << endl;
+
+	string1 = animal;
+	cout << (int *)string1;
+ output :
+ 00000000
+ 0079F8B4
+	
+  Tipically, a compiler sets aside an area in memory to hold all the quoted strings used in the program source code,
+  associating each stored string with its address
  
+  const char * bird = "wren";
+  String literals are constants, which is why the code uses the const keyword in the declaration.
+  Using const in this fashion means you use bird to access the string but not to change it.
  
+ (6) using new to create dynamic structures
  
+ struct inflat
+ {
+	float volume;
+	double price;
+ };
+ inflat goose = {1.2, 29.2};
+ inflat * guest = &goose;
  
- 
+ cout << guest->price << endl;
+ cout << goose.price << endl;
+ cout << (*guest).price;
+  
+  . dot membership operator
+  -> arrow membership operator
+  
+  contiguous, memory leaks 
+  
+(7) vector
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+	int n;
+	cin >> n;
+	vector<double> name(n);
+	name[1] = 5;
+	cout << name[1] << endl << name[0];
+	return 0;
+}
+  
+ name is an object of type vector<double> and
+
+(8) array tempalte class
+#include <iostream>
+#include <array>
+using namespace std;
+
+int main() {
+	array<double, 4> name;
+	name[1] = 5;
+	cout << name[1] << endl << name[0];
+	return 0;
+}
+You can assign an array object to another array object
  
  
  
