@@ -1,0 +1,33 @@
+1 outline
+(1) for loop
+(2) expressions and statements
+(3) ++ and --
+(4) relational operator
+(5) while loop
+(6) typedef
+(7) do while loop
+(8) nestd loops and two-dimensional arrays
+
+2 for loop
+loop initialization, loop test, loop update 
+i++ complete a cycle of loop
+stretch, indent, peculiar
+you can declare a variable in the initialization area of for loop.
+factorial,concise
+const value in an array, changing the step size
+
+*** Before the bool type was introduced, relational expressions evaluated to 1 if true and 0 if false
+int a = 0;
+cout << boolalpha; // cout.setf(ios_base::boolalpha);
+cout << (a > 1) << endl << (a <2);
+output:
+false
+true
+*** normally, cout converts bool value to int before displaying them
+
+when the very act of evaluating an expression changes the value of data in memory ,we say the evaluation has a side effect.
+sequence point
+++i is more efficient
+++*pt, *++pt
+sneak, grant, relevant, pitfall
+
