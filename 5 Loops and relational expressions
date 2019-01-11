@@ -31,3 +31,63 @@ sequence point
 ++*pt, *++pt
 sneak, grant, relevant, pitfall
 
+Type aliases
+#include <iostream>
+using namespace std;
+#define kai int   
+typedef char bell;
+int main() {
+	kai a = 0;
+	bell b = 't';
+	cout << boolalpha;
+	cout << (a > 1) << endl << b;
+	return 0;
+}
+
+3 loops and text input
+*** an important task assigned to loop is reading text character-by-character from a file or from the keyboard
+
+	int a;
+	do
+	{
+		cin >> a;
+	} while (a !=7);
+	cout << "Yes, 7 is my favourite number."<< endl;
+  
+  *** when reading type char values, just as when reading other basic types, cin skips over spaces and newline characters.
+  the spaces in the input are not echoed, so they are not counted.
+  
+  int a = 0;
+	char ch;
+	cin >> ch;
+	while (ch != '#')
+	{
+		cout << ch;
+		cin >> ch;
+		++a;
+	}
+	cout << endl << a << endl;
+	return 0;
+
+ *** the input to cin is buffered.
+ *** the character you type do not get sent to the program until you press Enter.
+ 
+	int a = 0;
+	char ch;
+	cin.get(ch);
+	while (ch != '#')
+	{
+		cout << ch;
+		cin.get(ch);
+		++a;
+	}
+	cout << endl << a << endl;
+	return 0;
+  
+  cin.get(ch) includes the spaces. // cin.get() function declares the argument as a reference, it alters the value of ch
+  
+ end-of-file (EOF), simulate the EOF condition from the keyboard. 
+
+
+
+
