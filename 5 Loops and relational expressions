@@ -86,7 +86,42 @@ int main() {
   
   cin.get(ch) includes the spaces. // cin.get() function declares the argument as a reference, it alters the value of ch
   
- end-of-file (EOF), simulate the EOF condition from the keyboard. 
+ end-of-file (EOF), simulate the EOF condition from the keyboard. Ctrl+Z
+
+	int a = 0;
+	char ch;
+	cin.get(ch);
+	while (cin.fail() == false)
+	{
+		cout << ch;
+		cin.get(ch);
+		++a;
+	}
+when cin detects the EOF, it sets two bits (the eofbit and the failbit) to 1.
+The fail() member function returns true if either the eofbit or the failbit has been set to 1 and false otherwise.
+The cin.clear() method clears the EOF flag and lets input proceed again.
+
+while (cin) // while input is successful  
+
+4 Nested loops and two-dimensional arrays
+int max[4][5]; // This declaration means that max is an array with four elements. Each of these elements is an array of five integers.
+cout << max[1] << endl;
+
+const char * cities[5] =  // array of pointers-to-char, each element can been initialized to the address of a string
+{
+	"America",
+	"China",
+	"Japan",
+	"German",
+	"England"
+};
+
+If you wang modifiable strings, the automatic sizing feature of the string class makes this approach more convenient to use than the 2-D array
+
+
+
+
+
 
 
 
