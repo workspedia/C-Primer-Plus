@@ -8,3 +8,63 @@
 (7) continue, break
 (8) Number-reading loops
 (9) Basic file I/O
+
+2 if statement
+Range Tests 
+Note that each part of a range test should use the AND operator to join two complete relational expressions: 
+if (age > 17 && age < 35)   // OK Don’t borrow from mathematics and use the following notation: 
+// Don't do this! If you make this mistake, the compiler won’t catch it as an error because it is still valid C++ syntax.
+if (17 < age < 35)          
+The  < operator associates from left to right, so the previous expression means the following: 
+if ( (17 < age) < 35) But 17 < age is either  true, or  1, or else  false, or  0. 
+In either case, the expression  17 < age is less than  35, so the entire test is always  true!
+
+the C++ logical OR and logicalAND operators have a lower precedence than relational operators.
+This means that an expression such as this x > 5 && x < 10 is interpreted this way: (x > 5) && (x < 10) 
+The ! operator,on the other hand,has a higher precedence than any of the relational or arithmetic operators.
+The logical  AND operator has a higher precedence than the logical OR operator.Thus this expression: 
+age > 30 && age < 45 || weight > 300 means the following: (age > 30 && age < 45) || weight > 300
+
+3 cctype library of character functions
+the isalpha(ch) function returns a nonzero value if  ch is a letter and a zero value otherwise. 
+ the  ispunct(ch) function returns a  true value  only  if  ch is a punctuation character, such as a comma or period. 
+(These functions have return type  int rather than  bool, but  the  usual  bool conversions allow you to treat them as type  bool.) 
+Using these functions is more convenient than using the  AND and OR operators. 
+if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
+
+&& and    || or  ! not
+
+4 the ?: operator
+conditional operator ?: it is the only C++operator that requires three operands.
+The general form looks like this:expression1?expression2:expression3
+cout << (5 > 3 ? 10 : 9 )<< endl;
+
+5 switch
+On reaching a  switch statement, a program jumps to the line labeled with the value corresponding to the value of  integer-expression. 
+
+The value integer-expression must be an expression that reduces to an integer value, each label must be an integer constant expression. 
+Most often, labels are simple  int or char constants, such as  1 or 'q', or enumerators. 
+
+If integer-expression doesn’t match any of the labels, the program jumps to the line labeled default.The  default label is optional. 
+ 
+Execution does not automatically stop at the next case.
+To make execution stop at the end of a particular group of statements, you must use the break statement.
+This causes execution to jump to the statement following the  switch. 
+
+	switch (age)
+	{
+		case 'a' :
+			cout << "first";
+			// break;
+		case 'b' :
+			cout << "second";
+			break;
+		default:
+			break;
+	}
+  
+  
+
+
+
+
