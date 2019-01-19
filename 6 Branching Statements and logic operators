@@ -63,7 +63,55 @@ This causes execution to jump to the statement following the  switch.
 			break;
 	}
   
-  
+6 simple file input/output
+No matter what the destination data type, the input begins as character data, that is text data.
+The cin object then has the responsibility of translating text to other types.
+
+suppose you have the following sample line of input:
+38.5 19.2
+
+char ch;
+cin >> ch; // In this case, the first character is the digit 3, and the character code (in binary) for this digit is stored in ch.
+
+int n;
+cin >> n; // In this case, cin reads up to the first non-digit character. That is, it reads 3 and 8, leaving the period as the next character in the input queue. 
+	int first;
+	int second;
+	cin >> first;
+	cin >> second;
+	cout << first << endl;
+	cout << second;
+output:
+38.5 19.2
+38
+0
+
+double x;
+cin >> double; // In this case, cin reads up to the first character that's not part of a floating-point number, leaving the space as the next character in the input queue.
+	double first;
+	double second;
+	cin >> first;
+	cin >> second;
+	cout << first << endl;
+	cout << second;
+	return 0;
+38.5 19.2
+38.5
+19.2
+
+char word[50];
+cin >> word; // In this case, cin reads up to the whitespace character.
+char word[50];
+cin.getline(word, 50); // In this case, cin reads up through the newline character.
+
+On output, the opposite translations take place.
+
+In text file, each byte stores a character code.
+Not all files are text files. For example, databases and spreadsheets store numeric data in number forms, that is, in binary integer or binary floating-point form.
+
+The ostream header file defines an ostream class class for handling output.
+The iostream header file declares an ostream variable, or object, called cout.
+
 
 
 
