@@ -111,8 +111,66 @@ Not all files are text files. For example, databases and spreadsheets store nume
 
 The ostream header file defines an ostream class class for handling output.
 The iostream header file declares an ostream variable, or object, called cout.
+#include <iostream>
+#include <fstream>
+using namespace std;
 
+int main() {
+	char automobile[50];
+	cin.getline(automobile, 50);
 
+	int year;
+	cin >> year;
 
+	ofstream outFile;
+	outFile.open("D:\\program\\carinfo.txt");
+	outFile << "Make and model: " << automobile << endl;
+	outFile << "year: " << year << endl;
+	outFile.close();
 
+	return 0;
+}
+
+When the file carinfo.txt exists, what happens if you run the program again?
+By default, open() first truncates the file; that is, it trims carinfo.txt to zero length, discarding the current contents.
+The contents are then replaced with the new output.
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+	char filename[50];
+	cout << "please input filename: ";
+	cin.getline(filename, 50);
+	ifstream inFile;
+	inFile.open(filename);
+	if(!inFile.is_open())
+	{
+		cout << "Could not open the file.\n";
+		exit(EXIT_FAILURE);
+	}
+	char value;
+	int sum = 0;
+	int count = 0;
+	inFile >> value;
+	while (inFile.good())
+	{
+		++count;
+		sum += value;
+		inFile >> value;
+		cout << value;
+	}
+	if (inFile.eof())
+	{
+		cout << "End of file reached.\n";
+	}
+	cout << "sum: "<<sum << endl;
+	cout << "count: " << count << endl;
+
+	return 0;
+}
+
+Pay close attention to the proper design of file-reading loop.
+The fail() method returns true if the most recent read attempt encountered a type mismatch.
 
