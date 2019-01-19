@@ -1,0 +1,29 @@
+1 outline
+(1) function prototypes
+(2) passing function arguments by value
+(3) function & array
+(4) const pointer
+(5) function & text strings
+(6) function & structure
+(7) function & string class
+(8) recursion
+(9) pointers to functions
+
+(2) function prototypes
+The return value cannot be an array.
+A prototype describes the function interface to the compiler.
+void cheer(int); // The function prototype does not require that you provide names for the variables.
+
+(3) function arguments and passing by value
+cube() function header:
+double cube(double x)
+double volume = cube(side);
+side is a variable, had the value 5. 
+when this function is called, it creates a new type double variable called x and initializes it with the value 5.
+this insulates data in main().
+formal argument, actual argument
+
+2 kinds of local variables you can have in a function.
+formal parameters and other local variables declared between the braces.
+
+(4) function & array  
