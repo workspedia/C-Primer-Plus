@@ -1,0 +1,96 @@
+1 outline
+(1) function prototypes
+(2) passing function arguments by value
+(3) function & array
+(4) const pointer
+(5) function & text strings
+(6) function & structure
+(7) function & string class
+(8) recursion
+(9) pointers to functions
+
+(2) function prototypes
+The return value cannot be an array.
+A prototype describes the function interface to the compiler.
+void cheer(int); // The function prototype does not require that you provide names for the variables.
+
+(3) function arguments and passing by value
+cube() function header:
+double cube(double x)
+double volume = cube(side);
+side is a variable, had the value 5. 
+when this function is called, it creates a new type double variable called x and initializes it with the value 5.
+this insulates data in main().
+formal argument, actual argument
+
+2 kinds of local variables you can have in a function.
+formal parameters and other local variables declared between the braces.
+
+(4) function & array  
+int sum_arr(int arr[], int n) // make the function general to array with any size, you pass the size of the array
+#include <iostream>
+const int ArSize = 8;
+
+int sum_arr(int arr[], int n);
+using namespace std;
+
+int main() {
+	int cookies[ArSize] = { 1, 2, 4, 8, 16, 32, 64, 128 };
+	int sum = sum_arr(cookies, ArSize);
+	cout << "Total cookies: " << sum << endl;
+
+	return 0;
+}
+
+int sum_arr(int arr[], int n)
+{
+	int total = 0;
+	for (int i = 0; i < n; i++)
+	{
+		total = total + arr[i];
+	}
+	return total;
+}
+
+*** arr is not really an array; it is a pointer! The rest of the function just as if arr were an array.
+*** int sum_arr(int * arr, int n); // both header are correct and have the identical meaning.
+*** if you pass an ordinary variable, the function works with a copy.
+*** But if you pass an array, the function works with the original.
+
+*** sizeof(cookies) is 32, whereas sizeof(arr) is only 4.
+*** That is because sizeof cookies is the size of the whole array, whereas sizeof arr is the size of the pointer variable.
+*** So you have to explicitly pass the size of array rather than use sizeof arr in the function.
+
+Do not try to pass the array size by using brackets notation:
+void fillArray(int arr[size]);
+
+showing the array and protecting it with const
+void show_array(const double ar[], int n);
+The declaration states that the pointer ar points to constant data. This means that you can not use ar to change the data.
+*** This does not mean that the original array needs be constant.
+*** It just means that you can not use ar in the function to change the data. 
+
+The Usual Array Function Idiom
+void f_modify(double ar[], int n);
+void f_no_change(const double ar[], int n);
+
+function using array ranges
+
+(5) Pointers and const
+You can use the const keyword two different ways.
+The first way is to make a pointer points to a constant object, preventing you from using the pointer to change the pointed-to value.
+The second way is to make the pointer itself constant, and that prevents you from changing where the pointer points.  
+
+assigning the address of a const variable to a pointer-to-const
+const float g_earth = 9.80;
+const float * pe = &g_earth; // valid
+
+assigning the address of a const to a regular pointer
+const float g_moon = 1.63;
+float * pm = &g_moon; //invalid
+
+
+
+
+
+
