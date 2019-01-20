@@ -89,8 +89,31 @@ assigning the address of a const to a regular pointer
 const float g_moon = 1.63;
 float * pm = &g_moon; //invalid
 
+(6) function and 2-Darray
+int data[3][4] = {{1,2,3,4}, {8,4,6,3}, {4,7,8,3}};
+int total = sum(data,3);
+the type of data is a pointer-to-array-of-four-int
+int sum(int (*ar2)[4], int size); // a single pointer-to-array-of-four-int
+int sum(int ar2[][4], int size); // either prototype states that ar2 is a pointer
 
+ar2
+ar2 + r
+*(ar2 + r) // hence the name of an array
+*(ar2 + r) + c
+*(*(ar2 + r)) + c
 
+int *ar[4] // four pointers-to-int
+
+(7) function & c-style strings
+a standard way to process the characters in a string:
+while (*str)
+{
+	statements
+	++str;
+}
+
+(8) functions & structures
+there is one disadvantage to passing structures by value: space and effort 
 
 
 
