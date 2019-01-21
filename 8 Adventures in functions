@@ -1,0 +1,24 @@
+1 outline
+(1) inline function
+(2) reference variables
+(3) pass function arguments by reference
+(4) default arguments
+(5) function overloading
+(6) function templates
+
+C++ provides many new function features that separate C++ from its C heritage.
+The new features include inline functions, by reference variable passing, default argument values, function overloading and template functions.
+
+2 C++ inline function
+inline functions are a c++ enhancement designed to speed up programs.
+difference between noraml fun and inline function: how the C++ compiler incorporates them into a program.
+*** The final product of the compilation process is an executable program, which consists of a set of machine language instructions.
+*** Normal function calls involve having a program jump to another address (the function address) and then jump back when the fun terninates.
+memory penalty:
+the compiler replace the function call with the corresponding function code.
+
+*** recursion is not allowed or indeed possible for inline functions.
+*** Inline versus macros
+The inline facility is an addition to C++. C uses the preprocessor #define statement to provide macros, which are crude implementations of inline code.
+#define SQUARE(X) X*X
+this works not by passing arguments but through text substitution.
