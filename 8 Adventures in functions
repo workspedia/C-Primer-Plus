@@ -40,11 +40,12 @@ you can not declare the reference and then assign it a value later the way you c
 	int & beverage;
 	beverage = juice;
  
- initializing beverage to *pt makes beverage refer to juice.
+initializing beverage to *pt makes beverage refer to juice.
   int juice = 10;
-	int * pt = &juice;
-	int & beverage = *pt;
-	
+  int * pt = &juice;
+  int & beverage = *pt;
+  cout << "*pt = " << *pt << "beverage = " << beverage;	
+  
 passing by reference
+![image](https://github.com/workspedia/C-Primer-Plus/blob/master/Passing%20by%20value%20and%20passing%20by%20reference.jpg)
 
-	cout << "*pt = " << *pt << "beverage = " << beverage;
