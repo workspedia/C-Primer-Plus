@@ -22,3 +22,29 @@ the compiler replace the function call with the corresponding function code.
 The inline facility is an addition to C++. C uses the preprocessor #define statement to provide macros, which are crude implementations of inline code.
 #define SQUARE(X) X*X
 this works not by passing arguments but through text substitution.
+
+(3) Reference Variables
+A reference is  a name that acts as an alias, or an alternative name, for a previously defined variable.
+The main use for a reference variable is a formal argument to a function.
+If you use a reference as an argument, the function works wih the original data instead of with a copy.
+references provide a convenient alternative to pointersfor processing large structures with functions, and they are essential for designing calsses.
+
+int juice;
+int & beverage = juice; // & is not the address operator. instead, it serves as part of the type identifier.
+char * in a declaration means pointer-to-char, int & means reference-to-int.
+the reference declaration allows you to use juice and beverage interchangeably; both refer to the same value and the same memory location.
+
+*** you should initialize a reference variable when you declare it.
+you can not declare the reference and then assign it a value later the way you can with a pointer:
+	int juice;
+	int & beverage;
+	beverage = juice;
+ 
+ initializing beverage to *pt makes beverage refer to juice.
+  int juice = 10;
+	int * pt = &juice;
+	int & beverage = *pt;
+	
+passing by reference
+
+	cout << "*pt = " << *pt << "beverage = " << beverage;
