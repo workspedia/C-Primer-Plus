@@ -23,7 +23,7 @@ The inline facility is an addition to C++. C uses the preprocessor #define state
 #define SQUARE(X) X*X
 this works not by passing arguments but through text substitution.
 
-(3) Reference Variables
+3 Reference Variables
 A reference is  a name that acts as an alias, or an alternative name, for a previously defined variable.
 The main use for a reference variable is a formal argument to a function.
 If you use a reference as an argument, the function works wih the original data instead of with a copy.
@@ -216,3 +216,130 @@ c. If the data object is a structure, use a reference or a pointer.
 d. If the data object is a class object, use a reference. 
 Of course, these are just guidelines, and there might be reasons for making different choices. 
 For  example, cin uses references for basic types so that you can use  cin >> n instead of  cin >> &n.
+
+4 default arguments
+How do you establish a default value? You must use the function prototype.
+Because the compiler looks at the prototype to see how many arguments a function uses.
+When you use a function with an argument list, you must add defaults from right to left.
+That is, you can not provide a default value for a particular argument unless you also provide defaults for all the arguments to its right.
+Default arguments aren’t a major programming breakthrough; rather, they are a convenience.
+When you begin working with class design, you’ll find that they can reduce the number of constructors, methods,and method overloads you have to define.
+
+#include <iostream>
+#include <cstring>
+const int ArSize = 80;
+char * left(const char * str, int n = 1);
+
+int main() {
+	using namespace std;
+	char sample[ArSize];
+	cin.getline(sample, ArSize);
+	cout << "default: " << left(sample) << endl;
+	cout << "the first 6: " << left(sample, 6) << endl;
+
+	return 0;
+}
+
+char * left(const char * str, int n)
+{
+	char * r_str = new char[strlen(str)];
+	for (int i = 0; i < strlen(str); i++)
+	{
+		r_str[i] = str[i];
+	}
+
+	if (strlen(str) < n)
+		return r_str;
+	else
+	{
+		*(r_str + n) = '\0';
+		return r_str;
+	}
+}
+Another approach for setting the size of the new string is to set  n to the smaller of the passed value and the string length: 
+int len = strlen(str); 
+n = (n < len) ? n : len;    // the lesser of n and len 
+char * p = new char[n+1]; 
+This ensures that  new doesn’t allocate more space than what’s needed to hold the string.
+That can be useful if you make a call such as  left("Hi!", 32767).
+
+But by adding another function call (strlen()), it increases the program size, slows the process, 
+and requires that you remember to include the  cstring (or string.h) header file. 
+C programmers have tended to opt for faster running, more compact code and leave a greater burden on the programmer to use functions correctly. 
+However, the C++ tradition places greater weight on reliability.
+After all, a slower program that works correctly  is  better  than  a  fast  program  that  works  incorrectly. 
+If the time taken to call strlen() turns out to be a problem, you  can  let  left() determine the lesser of n and the string length directly. 
+For  example, the following loop quits when  m reaches  n or the end of the string, whichever comes first: 
+int m = 0; 
+while (m <= n && str[m] != '\0') 
+	m++; 
+char * p = new char[m+1]: // use m instead of n in rest of code 
+the  while test also can be written this way:
+while (m<=n && str[m])
+
+5 function overloading
+Whereas default arguments let you call the same function by using varying numbers of arguments, 
+function polymorphism, also called  function overloading, lets you use multiple functions sharing the same name.
+The word polymorphism means having many forms, so function polymorphism lets a function have many forms. 
+Similarly, the expression  function overloading means you can attach more than one function to the same name, thus overloading the name.
+
+The key to function overloading is a function’s argument list, also called the function signature. 
+If two functions use the same number and types of arguments in the same order, they have the same signature;the variable names don’t matter. 
+C++ enables you to define two functions by the same name, provided that the functions have different signatures.
+The signature can differ in the number of arguments or in the type of arguments, or both.
+Faced with this ambiguous situation, C++ rejects the function call as an error.
+
+
+Some signatures that appear to be different from each other nonetheless can’t coexist. 
+For  example, consider these two prototypes: 
+double cube(double x); 
+double cube(double & x);
+You  might  think  this  is  a  place  you  could  use  function  overloading  because  the  function signatures appear to be different. 
+But consider things from the compiler’s standpoint. 
+Suppose you have code like this: 
+cout << cube(x); The x argument matches both the  double x prototype and the  double &x prototype. 
+The compiler has no way of knowing which function to use.
+Therefore, to avoid such confusion, when it checks function signatures, the compiler considers a reference to a type and the type itself to be the same signature. 
+
+The function-matching process does discriminate between  const and non-const variables.
+Consider the following prototypes: 
+void dribble(char * bits);          // overloaded 
+void dribble (const char *cbits);   // overloaded 
+void dabble(char * bits);           // not overloaded 
+void drivel(const char * bits);     // not overloaded 
+Here’s what various function calls would match: 
+const char p1[20] = "How's the weather?"; 
+char p2[20] = "How's business?"; 
+dribble(p1);      // dribble(const char *); 
+dribble(p2);      // dribble(char *); 
+dabble(p1);       // no match 
+dabble(p2);       // dabble(char *); 
+drivel(p1);       // drivel(const char *); 
+drivel(p2);       // drivel(const char *); 
+The dribble() function has two prototypes—one for  const pointers and one for regular pointers—and the compiler selects one or the other, 
+depending on whether the actual argument is  const.
+The  dabble() function only matches a call with a non-const argument,but  the  drivel() function matches calls with either  const or non-const arguments.
+The reason for this difference in behavior between  drivel() and dabble() is that it’s valid to assign a non-const value  to  a  const variable,but  not  vice  versa. 
+
+Keep  in  mind  that  the  signature, not the function type, enables function overloading. 
+
+What Is Name Decoration? How does C++ keep track of which overloaded function is which? 
+It assigns a secret identity to each of these functions.
+When you use the editor of your C++ development tool to write and compile programs, 
+your C++ compiler performs a bit of magic on your behalf—known as name decoration or name mangling—through which each function name is encrypted, 
+based on the formal parameter types specified in the function’s prototype. 
+Consider the following undecorated function prototype: 
+long MyFunctionFoo(int, float); 
+This format is fine for us humans; 
+we know that the function accepts two arguments of type int and float, and it returns a value of type  long. 
+For its own use, the compiler documents this interface by transforming the name into an internal representation with a more unsightly appearance, 
+perhaps something like this: 
+?MyFunctionFoo@@YAXH 
+The apparent gibberish decorating the original name (or mangling it, depending on your attitude) encodes the number and types of parameters. 
+
+
+
+
+
+
+
