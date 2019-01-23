@@ -47,5 +47,172 @@ initializing beverage to *pt makes beverage refer to juice.
   cout << "*pt = " << *pt << "beverage = " << beverage;	
   
 passing by reference
-![image](https://github.com/workspedia/C-Primer-Plus/blob/master/Passing%20by%20value%20and%20passing%20by%20reference.jpg)
+#include <iostream>
 
+void swap(int * a, int * b); // the argument should be an address
+void swap(int & a, int & b);
+int main() {
+	using namespace std;
+
+	int orange = 10;
+	int * op = &orange;
+	int apple = 9;
+	int * ap = &apple;
+	cout << "orange = " << orange << endl;
+	cout << "apple = " << apple << endl;
+
+	cout << "swap by passing reference" << endl;
+	swap(orange, apple);
+	cout << "orange = " << orange << endl;
+	cout << "apple = " << apple << endl;
+
+	cout << "swap by passing pointers" << endl;
+	swap(op, ap); // swap(&orange, &apple);
+	cout << "orange = " << orange << endl;
+	cout << "apple = " << apple << endl;
+
+	return 0;
+}
+
+void swap(int *a, int *b)
+{
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void swap(int & a, int & b)
+{
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+reference properties and oddities (skip)
+
+*** reference were introduced primarily for use with structures and classes.
+double m = sqrt(16.0); 
+cout << sqrt(25.0); 
+In the first statement, the value 4.0 is copied to a temporary location and then the value in that location is copied to m.
+In the second statement,the value 5.0 is copied to a temporary location, then the contents of that location are passed on to cout.
+Now consider this statement: 
+dup = accumulate(team,five); 
+If accumulate() returned a structure instead of a reference to a structure, 
+this could involve copying the entire structure to a temporary location and then copying that copy to dup.
+But with a reference return value, team is copied directly to  dup, a more efficient approach. 
+
+Note 
+A function that returns a reference is actually an alias for the referred-to variable. 
+Being Careful About What a Return Reference Refers To 
+*** remember when returning a reference is to avoid returning a reference to a memory location that ceases to exist when the function terminates.
+What you want to avoid is code along these lines: 
+const free_throws & clone2(free_throws & ft) 
+{ 
+	free_throws newguy;  // first step to big error 
+	newguy = ft;         // copy info 
+	return newguy;       // return reference to copy 
+}
+
+
+The simplest way to avoid this problem is to return a reference that was passed as an argument to the function.
+A reference parameter will refer to data used by the calling function; hence, the returned reference will refer to that same data.
+
+A second method is to use new to create new storage.
+You’ve already seen examples in which new creates space for a string and the function returns a pointer to that space.
+Here’s how you could do something similar with a reference: 
+const free_throws & clone(free_throws & ft) 
+{ 
+	free_throws * pt; 
+	*pt = ft;          // copy info 
+	return *pt;        // return reference to copy 
+} 
+The first statement creates a nameless  free_throws structure.
+The pointer  pt points to the structure, so  *pt is the structure.
+The code appears to return the structure, but  the function declaration indicates that the function really returns a reference to this structure. 
+You  could  then  use  the  function  this  way: 
+free_throws & jolly = clone(three); 
+This makes  jolly a reference to the new structure.
+problem: may forget to delete().
+
+Why Use const with a Reference return?
+Suppose you want to use a reference return value but don’t want to permit behavior such as assigning a value to  accumulate(). 
+Just  make  the  return  type  a  const reference: const free_throws & accumulate(free_throws & target, const free_throws & source); 
+The return type now is  const, hence a nonmodifiable lvalue.
+Therefore, the assignment no longer is allowed: 
+accumulate(dup,five) = four;  // not allowed for const reference return
+
+using reference with a calss object
+Passing  a  C-Style  String  Argument  to  a  string Object Reference Parameter 
+You  may  have  noticed  a  rather  interesting  fact  about  the  version1() function: 
+Both formal parameters (s1 and s2) are type  const string &, 
+but the actual arguments (input and "***") are type  string and const char *, respectively. 
+Because  input is type  string, there is no problem having  s1 refer to it. 
+But how is it that the program accepts passing a pointer-to-char argument to a  string reference? 
+Two  things  are  going  on  here.  
+One  is  that  the  string class defines a  char *-to-string conversion, 
+which makes it possible to initialize a  string object to a C-style string. 
+The second is a property of  const reference formal parameters that is discussed earlier in this chapter. 
+Suppose the actual argument type doesn’t match the reference parameter type but can be converted to the reference type. 
+Then the program creates a temporary variable of the correct type, initializes it to the converted value, 
+and passes a reference to the temporary variable. 
+Earlier this chapter you saw, for instance, that a  const double & parameter can handle an  int argument in this fashion. 
+Similarly, a  const string & parameter can handle a  char * or const char * argument in this fashion. 
+The convenient outcome of this is that if the formal parameter is type  const string &, 
+the actual argument used in the function call can be a  string object or a C-style string, 
+such as a quoted string literal, a null-terminated array of  char, or a pointer variable that points to a char. 
+Hence the following works fine: result = version1(input, "***");
+
+The setf() method allows you to set various formatting states. 
+For  example, the method call  setf(ios_base::fixed) places an object in the mode of using fixed decimal-point notation.
+The call  setf(ios_base:showpoint) places an object in the mode of showing a trailing decimal point, 
+even  if  the  following  digits  are  zeros.
+The  precision() method indicates the number of figures to be shown to the right of the decimal.
+All these settings stay in place unless they’re reset by another method call.
+The  width() call sets the field width to be used for the next output action.
+This setting holds for displaying one value  only, and then it reverts to the default. 
+(The default is a field width of zero, which is then expanded to just fit the actual quantity being displayed.) 
+The file_it() function uses an interesting pair of method calls: 
+ios_base::fmtflags initial; 
+initial = os.setf(ios_base::fixed); // save initial formatting state 
+... 
+os.setf(initial);   // restore initial formatting state 
+
+The setf() method returns a copy of all the formatting settings in effect before the call was made. 
+ios_base::fmtflags is a fancy name for the type needed to store this information. 
+So the assignment to  initial stores the settings that were in place before the file_it() function was called.
+The  initial variable  can  then  be  used  as  an  argument to  setf() to reset all the formatting settings to this original value.
+Thus, the function restores the object to the state it had before being passed to  file_it(). 
+Knowing more about classes will help you understand better how these methods work and, why,for example, ios_base keeps  popping  up. 
+But you don’t have to wait until Chapter 17 to use these methods. 
+One final point: Each object stores its own formatting settings. 
+So when the program passes cout to file_it(),cout’s  settings  are  altered  and  then  restored.
+When  the program passes  fout to file_it(),fout’s  settings  are  altered  and  then  restored.
+
+When to Use Reference Arguments 
+There are two main reasons  for  using  reference  arguments: 
+(1) To  allow  you  to  alter  a  data  object  in  the  calling  function 
+(2) To  speed  up  a  program  by  passing  a  reference  instead  of  an  entire  data  object 
+The second reason is most important for larger data objects, such as structures and class objects.
+These two reasons are the same reasons you might have for using a pointer argument.
+This makes sense because reference arguments are really just a different interface forpointer-based code. 
+
+So when should you use a reference? Use a pointer? Pass by value? The following are some guidelines. 
+(1) A function uses passed data without modifying it: 
+a. If the data object is small, such as a built-in data type or a small structure, pass it by value. 
+b. If the data object is an array, use a pointer because that’s your only choice. Make the pointer a pointer to  const. 
+c. If the data object is a good-sized structure, use a  const pointer or a  const reference to increase program efficiency.
+   You save the time and space needed to copy a structure or a class design. Make the pointer or reference  const. 
+d. If the data object is a class object, use a  const reference.
+   The  semantics  of  class design often require using a reference, which is the main reason C++ added this feature.
+   Thus, the standard way to pass class object arguments is by reference. 
+   
+(2) A function modifies data in the calling function: 
+a. If the data object is a built-in data type, use a pointer. 
+   If you spot code like fixit(&x),where  x is an  int, it’s pretty clear that this function intends to modify  x. 
+b. If the data object is an array, use your only choice: a pointer. 
+c. If the data object is a structure, use a reference or a pointer. 
+d. If the data object is a class object, use a reference. 
+Of course, these are just guidelines, and there might be reasons for making different choices. 
+For  example, cin uses references for basic types so that you can use  cin >> n instead of  cin >> &n.
