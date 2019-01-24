@@ -1,0 +1,152 @@
+0 outline
+(1) Separate compilation of programs 
+(2) Storage duration, scope, and linkage 
+(3) Placement new 
+(4) Namespaces 
+C++ offers many choices for storing data in memory.
+You have choices for how long data remains in memory (storage duration) and choices for which parts of a program have access to data (scope and linkage).
+You can allocate memory dynamically by using  new, and placement  new offers a variation on that technique.
+The C++ namespace facility provides additional control over access. 
+Larger programs typically consist of several source code files that may share some data in common. 
+Such programs involve the separate compilation of the program files, and this chapter begins with that topic.
+
+1 Separate Compilation 
+you  can compile the files separately and then link them into the final executable program. 
+If you modify just one file, you  can  recompile  just  that  one  file  and  then  link  it  to  the  previously compiled versions of the other files.
+
+Instead of placing the structure declarations in each file, you  can  place  them  in  a  header  file  and  then  include  that  header  file  in each source code file.
+Also you can place the function prototypes in the header file. 
+Thus,you  can  divide  the  original  program  into  three  parts:
+a. A header file that contains the structure declarations and prototypes for functions that use those structures 
+b. A source code file that contains the code for the structure-related functions 
+c. A source code file that contains the code that calls the structure-related functions
+
+*** One file, the header file, contains the definition of the user-defined types.
+*** A second file contains the function code for manipulating the user-defined types.
+*** Together, they form a package you can use for a variety of programs.
+You  shouldn’t  put  function  definitions  or  var iable  declarations  into  a  header  file. (multiple definitions)
+
+Here are some things commonly found in header files:
+a. Function prototypes 
+b. Symbolic constants defined using  #define or const 
+c. Structure declarations 
+d. Class declarations
+e. Template  declarations 
+f. Inline functions 
+It’s okay to put structure declarations in a header file because they don’t create variables; 
+they just tell the compiler how to create a structure variable when you declare one in a source code file. 
+Similarly, template declarations aren’t code to be compiled; they are instructions to the compiler on how to generate function definitions to match function calls found in the source code. 
+Data declared  const and inline functions have special linkage properties that allow them to be placed in header files without causing problems. 
+
+If the filename is enclosed in angle brackets, the C++ compiler looks at the part of the host system’s file system that holds the standard header files. 
+But if the filename is enclosed in double quotation marks, the compiler first looks at the current working directory or at the source code directory (or some such choice, depending on the compiler). 
+If it doesn’t find the header file there, it then looks in the standard location. 
+So you should use quotation marks, not angle brackets, when including your own header files. 
+
+Note that you only add source code files, not header files, to projects.
+That’s because the #include directive manages the header files. 
+Also you shouldn’t use #include to include source code files because that can lead to multiple declarations.
+
+Caution 
+In IDEs, don’t add header files to the project list and don’t use  #include to include source code files in other source code files
+
+Compiling a multifile C++ program on a Unix system
+a. Give UNIX compile command for two source files: 
+   CC file1.cpp file2.ccp //source files
+b. Preprocessor combines included files with source code: //temp1.cpp temporary files
+c. Compiler creates an object code     // file1.o object code file
+d. Linker combines object code files with library code and startup code to produce executable file: a.out
+
+Header File Management 
+You  should  include  a  header  file  just  once  in  a  file.  
+That  might  seem  to  be  an  easy  thing  to remember, but it’s possible to include a header file several times without knowing you did so.
+For example, you might use a header file that includes another header file. 
+
+There’s a standard C/C++ technique for avoiding multiple inclusions of header files. 
+It’s based on the preprocessor
+#ifndef (for if not defined) directive. 
+A code segment like the following means “process the statements between the  
+#ifndef and #endif 
+only if the name COORDIN_H_ has not been defined previously by the preprocessor  #define directive”: 
+#ifndef COORDIN_H_ 
+... 
+#endif 
+Normally, you use the  #define statement to create symbolic constants, as in the following: 
+#define MAXIMUM 4096 
+But simply using  #define with a name is enough to establish that a name is defined, as in the following:
+#define COORDIN_H_  // with a few underscore characters tossed in to create a name that is unlikely to be defined elsewhere.
+
+Note that this method doesn’t keep the compiler from including a file twice. 
+Instead, it makes the compiler ignore the contents of all but the first inclusion.
+Most of the standard C and C++ header files use this guarding scheme. 
+Otherwise you might get the same structure defined twice in one file, and that will produce a compile error.
+
+By the way, although we’ve discussed separate compilation in terms of files, the C++ Standard uses the term  translation unit instead of  file in order to preserve greater generality; 
+the file metaphor is not the only possible way to organize information for a computer. 
+For simplicity, this book will use the term  file, but  feel  free  to  translate  that  to  translation unit. 
+
+Multiple Library Linking The C++ Standard allows each compiler designer the latitude to implement name decoration or mangling as it sees fit, 
+so you should be aware that binary modules (object-code files) created with different compilers will, most likely, not link properly. 
+That is, the two compilers will generate different decorated names for the same function. 
+This name difference will prevent the linker from matching the function call generated by one compiler with the function definition generated by a second compiler. 
+When attempting to link compiled modules, you should make sure that each object file or library was generated with the same compiler. 
+
+***If you are provided with the source code, you can usually resolve link errors by recompiling the source with your compiler.
+
+2 Storage Duration, Scope, and Linkage 
+storage categories affect how information can be shared across files. 
+C++ uses three separate schemes (four under C++11) for storing data, and the schemes differ in how long they preserve data in memory: 
+a. Automatic  storage  duration
+   Variables declared inside a function definition— including function parameters—have automatic storage duration.
+   
+b. Static storage duration
+   Variables defined outside a function definition or else by  using  the  keyword  static have static storage duration.
+   They persist for the entire time a program is running. 
+   C++ has three kinds of static storage duration variables.
+   
+c. Thread storage duration (C++11)—These days multicore processors are common.
+   These are CPUs that can handle several execution tasks simultaneously.
+
+d. Dynamic storage duration
+   Memory allocated by the new operator persists until it is freed with the delete operator or until the program ends, whichever comes first.
+   This memory has dynamic storage duration and sometimes is termed the free store  or the  heap.  
+   
+Scope and Linkage 
+Scope describes how widely visible a name is in a file (translation unit).
+Linkage describes how a name can be shared in different units.
+A name with external linkage can be shared across files, and a name with internal linkage can be shared by functions within a single file. 
+Names of automatic variables have no linkage because they are not shared. 
+
+A C++ variable can have one of several scopes.
+A variable that has  local scope (also termed  block  scope) is known only within the block in which it is defined. 
+Recall that a block  is  a  series  of  statements  enclosed  in  braces.
+A  function  body, for example,is a block, but  you  can  have  other  blocks  nested  within  the  function  body.
+A  variable  that  has  global scope (also termed  file scope) is known throughout the file after the point where it is defined.
+
+Automatic variables have local scope, and a static variable can have either scope, depending on how it is defined. 
+Names used in a  function prototype scope are known just within the parentheses enclosing the argument list. 
+
+Members declared in a class have  class  scope.
+Variables declared in a namespace have  namespace scope.
+
+C++ functions can have class scope or namespace scope, including global scope, but they can’t have local scope.
+The various C++ storage choices are characterized by their storage duration, their scope, and their linkage. 
+
+Automatic Storage Duration 
+Function parameters and variables declared inside a function have, by  default, automatic storage duration.
+They also have local scope and no linkage. 
+
+*** Note that the variable is allocated when execution enters the block, but the scope begins only after the point of declaration.
+
+
+
+
+
+
+
+
+
+
+
+
+
