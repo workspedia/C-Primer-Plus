@@ -337,6 +337,7 @@ perhaps something like this:
 ?MyFunctionFoo@@YAXH 
 The apparent gibberish decorating the original name (or mangling it, depending on your attitude) encodes the number and types of parameters. 
 
+6 function templates (skip)
 
 
 
