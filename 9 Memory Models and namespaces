@@ -132,20 +132,206 @@ Variables declared in a namespace have  namespace scope.
 C++ functions can have class scope or namespace scope, including global scope, but they can’t have local scope.
 The various C++ storage choices are characterized by their storage duration, their scope, and their linkage. 
 
-Automatic Storage Duration 
+(1) Automatic Storage Duration 
 Function parameters and variables declared inside a function have, by  default, automatic storage duration.
 They also have local scope and no linkage. 
 
 *** Note that the variable is allocated when execution enters the block, but the scope begins only after the point of declaration.
 
+Automatic Variables and the Stack 
+Because the number of automatic variables grows and shrinks as functions start and terminate, the program has to manage automatic variables as it runs.
+The usual means is to set aside a section of memory and treat it as a stack for managing the flow and ebb of variables. 
+The program keeps track of the stack by using two pointers. 
+One points to the base of the stack, where the memory set aside for the stack begins, and one points to the top of the stack, which is the next free memory location.
+When a function is called, its automatic variables are added to the stack, and the pointer to the top points to the next available  free  space  following  the  variables.
+When  the function terminates, the top pointer is reset to the value it had before the function was called, effectively freeing the memory that had been used for the new variables. 
+
+Register Variables 
+C originally introduced the  register keyword  to  suggest  that  the  compiler  use  a  CPU register  to  store  an  automatic  variable: 
+register int count_fast;  // request for a register variable 
+The idea was that this would allow faster access to the variable. 
+
+(2) Static Duration Variables 
+C++,like C,provides static storage duration variables with three kinds of linkage: 
+external linkage (accessible across files), internal linkage (accessible to functions within a single file), and no linkage (accessible to just one function or to one block within a function).
+All three last for the duration of the program; they are less ephemeral than automatic variables. 
+
+Because the number of static variables doesn’t change as the program runs, the program  doesn’t  need  a  special  device  such  as  a  stack  to  manage  them.
+Instead,the compiler allocates a fixed block of memory to hold all the static variables, and those variables stay present as long as the program executes.
+Also if you don’t explicitly initialize a static variable, the compiler sets it to  0. 
+Static arrays and structures have all the bits of each element or member set to  0 by  default.
 
 
+To create a static duration variable with external linkage, you declare it outside any block.
+To  create  a static  duration  variable  with  internal linkage, you declare it outside any block and use the static storage class modifier.
+To create a static duration variable with no linkage, you  declare  it  inside  a  block, using the static modifier.
 
+The following code fragment shows these three variations: 
+... 
+int global = 1000;           // static duration, external linkage 
+static int one_file = 50;    // static duration, internal linkage 
+int main() 
+{
+   ... 
+} 
+void funct1(int n) 
+{ 
+   static int count = 0;  // static duration, no linkage 
+   int llama = 0; 
+   ... 
+} 
 
+Table   The Five Kinds of Variable Storage 
+Storage Description              Duration    Scope    Linkage     How Declared     
+Automatic                        Automatic   Block    None        In a block
+Register                         Automatic   Block    None        In a block with the keyword register
+Static with no linkage           Static      Block    None        In a block with the keyword static
+Static with external linkage     Static      File     External    Outside all functions
+Static with internal linkage     Static      File     Internal    Outside all functions with the keyword  static
 
+When used with a local declaration to indicate a static variable with no linkage, static indicates the kind of storage duration.
+When used with a declaration outside of a block, static indicates internal linkage; the variable already has static duration. 
+One might term this  keyword overloading, with the precise meaning determined by context.
 
+Zero-initialization and constant-expression initialization collectively are called  static initialization.
+This  means  the  variable  is  initialized  when  the  compiler  processes  the  file  (or translation unit).
+Dynamic initialization means the variable is initialized later. 
+So what determines which form of initialization takes place? 
+First of all, all static variables are zero-initialized, whether or not any initialization is indicated. 
+Next, if the variable is initialized using a constant expression that the compiler can evaluate solely from the file contents (including included header files), 
+it can perform constant-expression initialization.
+The compiler is prepared to do simple calculations if needed. 
+If there’s not enough information at this time, the variable will be dynamically initialized.
+Consider the following: 
+#include <cmath> 
+int x;                              // zero-initialization 
+int y = 5;                          // constant-expression initialization 
+long z = 13 * 13;                   // constant-expression initialization 
+const double pi = 4.0 * atan(1.0);  // dynamic initialization 
+First, x, y, z, and  pi are zero-initialized.
+Then the compiler evaluates the constant expressions and initializes  y and z to 5 and 169, respectively. 
+But initializing  pi requires calling the  atan() function, and this has to wait until the function is linked and the program  executes. 
+A constant expression is not limited to arithmetic expressions using literal constants. 
+It can, for example, use the  sizeof operator: 
+int enough = 2 * sizeof (long) + 1;  // constant expression initialization 
 
+Static Duration, External Linkage 
+Variables  with  external  linkage  are  often simply called  external variables.
+They  necessarily have static storage duration and file scope. 
+External variables are defined outside, and hence external to, any function. 
+For  example, they could be declared above the  main() function or in a header file.
+You can use an external variable in any function that follows the external variable’s definition in the file.
+Thus, external variables are also termed  global variables, in contrast to automatic variables, which are local variables. 
 
+The One Definition Rule 
+On the one hand, an external variable has to be declared in each file that uses the variable. 
+On the other hand, C++ has the  “one definition rule” , which states that there can be only one definition of a variable.
+To satisfy these requirements, C++ has two kinds of variable declarations.
+One is the  defining declaration or, simply, a  definition.
+It causes storage for the variable to be allocated.
+The second is the  referencing declaration or, simply, a  declaration. 
+It does not cause storage to be allocated because it refers to an existing variable. 
+A referencing declaration uses the keyword  extern and does not provide initialization.
+Otherwise, a declaration is a definition and causes storage to be allocated: 
+double up;             // definition, up is 0 
+extern int blem;       // blem defined elsewhere 
+extern char gr = 'z';  // definition because initialized 
+But every other file using the variable needs to declare that variable using the keyword  extern
+
+What if you define an external variable and then declare a variable by the same name inside a function?  
+The second declaration is interpreted as a definition for an automatic variable.
+you can use C++’s scope-resolution operator to access an otherwise hidden external variable.
+C++ goes a step beyond C by offering the  scope-resolution operator (::).
+When it is prefixed to the name of a variable, this operator means to use the global version of that variable.
+Thus, local() displays  warming as 0.8,but  it  displays  ::warming as 0.4.
+
+Global Versus Local Variables 
+Most often, you should use local variables and pass data to functions on a need-to-know basis rather than make data available indiscriminately by  using  global  variables.  
+As  you  will  see, OOP takes this data isolation a step further. 
+Global variables do have their uses, however.
+For example, you might have a block of data that’s to be used by several functions, 
+such as an array of month names or the atomic weights  of  the  elements.  
+The  external  storage  class  is  particularly  suited  to  representing constant data because you can use the keyword  const to protect the data from change: 
+const char * const months[12] = 
+{ 
+"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+}; 
+In this example, the first  const protects the strings from change, 
+and the second  const makes sure that each pointer in the array remains pointing to the same string to which it pointed initially.
+
+ Static Duration, Internal Linkage 
+ a variable with internal linkage is local to the file that contains it. 
+ But a regular external variable has external linkage
+ What if you want to use the same name to denote different variables in different files? Can you just omit the  extern?
+ // file1 
+ int errors = 20;        // external declaration 
+ ...
+ --------------------------------------------
+ // file2 
+ int errors = 5;        // ??known to file2 only?? 
+ void froobish() 
+ { 
+   cout << errors;   // fails 
+   ... 
+   No,this attempt fails because it violates the one definition rule.
+ The  file2 definition attempts to create an external variable, so the program winds up with two definitions of errors,which is an error. 
+ But if a file declares a static external variable that has the same name as an ordinary external variable declared in another file, the static version is the one in scope for that file: 
+ // file1 
+ int errors = 20;        // external declaration 
+ ...
+ --------------------------------------------
+ // file2 
+ static int errors = 5;  // known to file2 only 
+ void froobish() 
+ { 
+ cout << errors;   // uses errors defined in file2
+ ... 
+ This doesn’t violate the one definition rule because the keyword  static establishes that the identifier  errors has internal linkage, 
+ so no attempt is made to bring in an external definition. 
+ Note In a multifile program, you can define an external variable in one and only one file.
+ All other files using that variable have to declare that variable with the  extern keyword
+ 
+ Static Storage Duration, No Linkage 
+ You create such a variable by applying the  static modifier to a variable defined inside a block.
+ When you use it inside a block, static causes a local variable  to  have  static  storage  duration.
+ This  means  that  even  though  the  variable  is  known within that block, it exists even while the block is inactive.
+Also if you initialize a static local variable, the program initializes the variable once, when the program starts up. 
+Subsequent calls to the function don’t reinitialize the variable  the  way  they  do  for  automatic  variables. 
+
+Functions and Linkage 
+C++, like C, does not allow you to define one function inside another, so all functions automatically have static storage duration, meaning they are all present as long as the program is running. 
+By default, functions have external linkage, meaning they can be shared across files.
+You can use the keyword  extern in a function prototype to indicate that the function is defined in another file, but  that  is  optional.
+You can also use the keyword  static to give a function internal linkage, confining its use to a single file.
+You would  apply  this  keyword  to  the  prototype  and  to  the  function  definition: 
+static int private(double x); 
+... 
+static int private(double x) 
+{ 
+   ... 
+} 
+This means the function is known only in that file. 
+It also means you can use the same name for another function in a different file.
+
+a file containing a static function definition will use that version of the function even if there is an external definition of a function that has the same name. 
+The one definition rule extends to non-inline functions, too.
+Therefore, every  program shall contain exactly one definition of every non-inline function. 
+For  functions  with external linkage, this means that only one file of a multifile program can contain the function definition.
+However, each file that uses the function should have the function prototype.
+Inline functions are excepted from this rule to allow you to place inline function definitions in a header file.
+Thus, each file that includes the header file ends up having the inline function definition. 
+However, C++ does require that all the inline definitions for a particular function be identical.
+
+Where C++ Finds Functions 
+Suppose you call a function in a particular file in a program. 
+Where does C++ look for the function definition? 
+If the function prototype in that file indicates that the function is static, 
+the compiler looks only in that file for the function definition. 
+Otherwise, the compiler (and the linker, too) looks in all the program files. 
+If it finds two definitions, the compiler sends you an error message because you can have only one definition for an external function.
+If it fails to find any definition in the files, the function then searches the libraries. 
+This implies that if you define a function that has the same name as a library function, the compiler uses your version rather than the library version.
+Some compiler-linkers need explicit instructions to identify which libraries to search.
 
 
 
