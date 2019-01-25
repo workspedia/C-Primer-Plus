@@ -59,7 +59,43 @@ Rather than take them all at once, let’s break up the development into smaller
 Typically, C++ programmers place the interface, in the form of a class definition, in a header file 
 and place the implementation, in the form of code for the class methods, in a source code file. So let’s be typical. 
 
+Access Control 
+Any program that uses an object of a particular class can access the public portions directly.
+A program can access the private members of an object  only by  using  the public member functions (or via a friend function). 
+Thus, the public member functions act as go-betweens between a program and an object’s private members; 
+they provide the interface between object and program.
+This insulation of data from direct access by a program  is  called data hiding. 
 
+keyword public  identifies class members that constitute the public interface for the class (abstraction) 
+A class design attempts to separate the public interface from the specifics of the implementation.
+The public interface represents the abstraction component of the design. 
+Gathering the implementation details together and separating them from the abstraction is called encapsulation. 
 
+Data hiding (putting data into the private section of a class) is an instance of encapsulation, 
+and so is hiding functional details of an implementation in the private section.
+Another example of encapsulation is the usual practice of placing class function definitions in a separate file from the class declaration. 
+
+The principle is to separate the details of the implementation from the design of the interface. 
+If you later find a better way to implement the data representation or the details of the member functions, 
+you  can  change those details without changing the program interface, and that makes programs much easier to maintain. 
+
+Member Access Control: Public or Private?
+You  don’t  have  to  use  the  keyword  private in class declarations because that is the default access control for class objects.
+
+Classes and Structures 
+Class descriptions look much like structure declarations with the addition of member functions and the  public and private visibility labels. 
+In fact, C++ extends to structures the same features classes have. 
+The only difference is that the default access type for a structure is  public, whereas the default type for a class is  private. 
  
-
+Implementing Class Member Functions 
+Member function definitions also have two special characteristics: 
+When you define a member function, you  use  the  scope-resolution  operator  (::) to identify the class to which the function belongs. 
+Class methods can access the  private components of the class. 
+void Stock::update(double price) 
+This notation means you are defining the  update() function that is a member of the Stock class. 
+Not only does this identify  update() as a member function, it means you can use the same name for a member function for a different class. 
+void Buffoon::update() 
+Thus,the scope-resolution operator resolves the identity of the class to which a method definition applies.
+We say that the identifier  update() has class  scope. 
+Other member functions of the  Stock class can, if necessary, use the  update() method without using the scope-resolution operator.
+That’s because they belong to the same class, making update() in scope.
