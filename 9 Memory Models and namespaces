@@ -333,6 +333,87 @@ If it fails to find any definition in the files, the function then searches the 
 This implies that if you define a function that has the same name as a library function, the compiler uses your version rather than the library version.
 Some compiler-linkers need explicit instructions to identify which libraries to search.
 
+Storage Schemes and Dynamic Allocation 
+dynamic memory is controlled by  the  new and delete operators,not by scope and linkage rules.
+Thus, dynamic memory can be allocated from one function and freed from another function. 
+Typically,the compiler uses three separate memory chunks: one for static variables (this chunk might be subdivided), one for automatic variables, and one for dynamic storage. 
+Although the storage scheme concepts don’t apply to dynamic memory, they do apply to automatic and static pointer variables used to keep track of dynamic memory. 
+For example, suppose you have the following statement inside a function: 
+float * p_fees = new float [20]; 
+The 80 bytes (assuming that a  float is 4 bytes) of memory allocated by  new remains  in memory until the  delete operator frees it.
+But the  p_fees pointer passes from existence when program execution exits the block containing this declaration. 
+If you want to have the 80 bytes of allocated memory available to another function, you  need  to  pass  or  return its address to that function. 
+On the other hand, if you declare  p_fees with external linkage, the  p_fees pointer will be available to all the functions following that declaration in the file.
+And by using the following in a second file, you  make  that  same pointer available in the second file: 
+extern float * p_fees;
+
+Initialization with the  new Operator 
+What if you want to initialize a variable as part of the dynamic memory allocation? 
+If you wish to create and initialize storage for one of the scalar built-in types, you can do so by following the desired type  with  an  initialization  value enclosed in parentheses:
+int *pi = new int (6);   // *pi set to 6 
+double * pd = new double (99.99);  // *pd set to 99.99 
+The parentheses syntax also can be used with classes having suitable constructors, but we  haven’t  got  that  far  yet
+
+When new Fails It may be that  new can’t find the requested amount of memory. 
+For its first decade, C++ handled that eventuality by having new return a null pointer. Currently, however, new throws a std::bad_alloc exception.
+
+Namespaces 
+Names in C++ can refer to variables, functions, structures, enumerations, classes, and class and structure members.
+When programming projects grow large, the potential for name conflicts increases.
+When you use class libraries from more than one source, you  can  get name conflicts. 
+For  example, two libraries might both define classes named  List, Tree, and Node,but  in  incompatible  ways.
+You  might  want  the  List class from one library and the Tree from the other, and each might expect its own version of  Node. 
+Such conflicts are termed  namespace problems.
+
+4 Traditional  C++  Namespaces 
+A  declarative  region is a region in which declarations can be made. 
+For  example, you  can  declare  a  global  variable  outside any function.
+The declarative region for that variable is the file in which it is declared. 
+If you  declare  a  variable  inside  a  function, its declarative region is the innermost block in which it is declared. 
+A second term you need to be aware of is  potential scope.
+The  potential  scope for a variable begins at its point of declaration and extends to the end of its declarative region. 
+the potential scope is more limited than the declarative region because you can’t use a variable above the point where it is first defined. 
+However,a variable might not be visible everywhere in its potential scope. 
+For instance, it might be hidden by another variable of the same name declared in a nested declarative region. 
+
+The portion of the program that can actually see the variable is termed the  scope, which is the way we’ve been using the term all along.
+
+New Namespace Features C++ now adds the ability to create named namespaces by defining a new kind of declarative region, 
+
+The names in one namespace don’t conflict with the same names declared in other namespaces, 
+and there are mechanisms for letting other parts of a program use items declared in a namespace.
+
+The following code, for example, uses the new keyword  namespace to create two namespaces, Jack and Jill: 
+namespace Jack 
+{ 
+   double pail;                      // variable declaration 
+   void fetch();                     // function prototype 
+   int pal;                          // variable declaration 
+   struct Well { ... };              // structure declaration 
+} 
+
+Namespaces can be located at the global level or inside other namespaces, but  they cannot be placed in a block.
+Thus, a name declared in a namespace has external linkage by default (unless it refers to a constant). 
+In addition to user-defined namespaces, there is one more namespace, the global namespace.
+This  corresponds  to  the  file-level  declarative  region,so what used to be termed  global variables are now described as being part of the global namespace. 
+The names in any one namespace don’t conflict with names in another namespace. 
+Of course, you  need  a  way  to  access  names  in  a  given  namespace.
+The  simplest  way  is to use  ::, the scope-resolution operator, to  qualify a name with its namespace: 
+Jack::pail = 12.34;  // use a variable 
+Jack::fetch();       // use a function 
+An unadorned name,such as  pail,is termed the unqualified name, whereas a name with the namespace,as in  Jack::pail, is termed a  qualified name. 
+
+using Declarations and  using Directives 
+The  using declaration lets you make particular identifiers available, and the  using directive makes the entire namespace accessible. 
+The using declaration involves preceding a qualified name with the keyword  
+using: using Jill::fetch;    // a using declaration
+A using declaration adds a particular name to the declarative region in which it occurs. 
+For  example, the  using declaration of  Jill::fetch in main() adds fetch to the declarative region defined by  main(). 
+After making this declaration, you  can  use  the  name fetch instead of  Jill::fetch.
+
+Because a  using declaration adds the name to the local declarative region, this example precludes creating another local variable by the name of  fetch.
+Also  like  any  other  local variable, fetch would  override  a  global  variable  by  the  same  name
+
 
 
 
