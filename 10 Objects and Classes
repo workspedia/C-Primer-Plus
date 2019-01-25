@@ -1,0 +1,65 @@
+0 outline
+(1) Procedural and object-oriented programming 
+(2) The concept of classes 
+(3) How to define and implement a class 
+(4) Public and private class access 
+(5) Class data members Class methods (also called class function members) 
+(6) Creating and using class objects 
+(7) Class constructors and destructors 
+(8) const member functions 
+(9) The this pointer Creating arrays of objects 
+(10) Class scope 
+(11) Abstract data types 
+
+most important OOP features: 
+Abstraction 
+Encapsulation and data hiding 
+Polymorphism 
+nheritance 
+Reusability of code
+
+1 Procedural and object-oriented programming
+with a procedural approach, you  first  concentrate  on the procedures you will follow and then think about how to represent the data. 
+
+with an OOP approach, you concentrate on the object as the user perceives it, 
+thinking about the data you need to describe the object and the operations that will describe the user’s interaction with the data.
+After you develop a description of that interface, you  move  on  to  decide  how  to  implement  the  interface  and  data  storage. 
+Finally,you put together a program to use your new design. 
+
+2 Abstraction and Classes 
+Life is full of complexities, and one way we cope with complexity is to frame simplifying abstractions.
+You are a collection of more than an octillion atoms. 
+Some students of the mind would say that your mind is a collection of several semiautonomous agents.
+In computing,abstraction is the crucial step of representing information in terms of its interface with the user.
+That is, you abstract the essential operational features of a problem and express a solution in those terms. 
+From abstraction, it is a short step to the user-defined type, which in C++ is a class design that implements the abstract interface. 
+
+What Is a Type? 
+Let’s think a little more about what constitutes a type.
+For  example, what is a nerd? 
+
+If you subscribe to the popular stereotype, you  might  think  of  a  nerd  in  visual  terms—thick, black-rimmed  glasses, pocket protector full of pens, and so on.
+After a little reflection, you might conclude that a nerd is better defined operationally—for example, in terms of how he or she responds to an awkward social situation.
+You have a similar situation, if you don’t mind stretched analogies, with a procedural language such as C.
+At first, you  tend  to think of a data type in terms of its appearance—how it is stored in memory.
+A  char, for example, is 1 byte of memory, and a  double is often 8 bytes of memory. 
+But a little reflection leads you to conclude that a data type is also defined in terms of the operations that can be performed on it.
+ 
+In short, specifying a basic type does three things: 
+It determines how much memory is needed for a data object. 
+It determines how the bits in memory are interpreted. 
+It determines what operations, or methods, can be performed using the data object.
+For  built-in  types, the information about operations is built in to the compiler. 
+But when you define a user-defined type in C++, you  have  to  provide  the  same  kind  of information yourself. 
+
+2 Classes in C++ 
+It combines data representation and methods for manipulating that data into one neat package. 
+Developing a class and a program using it requires several steps. 
+Rather than take them all at once, let’s break up the development into smaller stages.
+Typically, C++ programmers place the interface, in the form of a class definition, in a header file 
+and place the implementation, in the form of code for the class methods, in a source code file. So let’s be typical. 
+
+
+
+ 
+
