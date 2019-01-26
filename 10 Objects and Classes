@@ -208,3 +208,80 @@ We’ll follow this rule from here on out.
 You can have only one destructor per class. It has no
 return type (not even void), it has no arguments,and its name is the class name preceded by a tilde
 
+4 Knowing Your Objects: The this Pointer
+In general,all class methods have a this pointer set to the address of the object that invokes the method.
+Indeed, total_val in topval() is just shorthand notation for this->total_val.
+
+What you want to return, however, is not this because this is the address of the
+object.You want to return the object itself,and that is symbolized by *this. (Recall that
+applying the dereferencing operator * to a pointer yields the value to which the pointer
+points.) Now you can complete the method definition by using *this as an alias for the
+invoking object:
+const Stock & Stock::topval(const Stock & s) const
+{
+if (s.total_val > total_val)
+return s; // argument object
+else
+return *this; // invoking object
+}
+
+5 An Array of Objects
+const int STKS = 10;
+Stock stocks[STKS] = {
+Stock("NanoSmart", 12.5, 20),
+Stock(),
+Stock("Monolithic Obelisks", 130, 3.25),
+};
+This initializes stocks[0] and stocks[2] using the Stock(const string & co,
+long n, double pr) constructor as well as stocks[1] using the Stock() constructor.
+Because this declaration only partially initializes the array, the remaining seven members
+are initialized using the default constructor.
+
+For example, the original Unix implementation used a C++ front-end
+cfront that converted C++ programs to C programs.To handle method definitions,all it
+had to do is convert a C++ method definition like
+void Stock::show() const
+{
+cout << "Company: " << company
+<< " Shares: " << shares << ‘\n’
+<< " Share Price: $" << share_val
+<< " Total Worth: $" << total_val << ‘\n’;
+}
+to the following C-style definition:
+void show(const Stock * this)
+{
+cout << "Company: " << this->company
+<< " Shares: " << this->shares << ‘\n’
+<< " Share Price: $" << this->share_val
+<< " Total Worth: $" << this->total_val << ‘\n’;
+}
+That is, it converted a Stock:: qualifier to a function argument that is a pointer to
+Stock and then uses the pointer to access class members.
+Similarly, the front end converted function calls like
+top.show();
+to this:
+show(&top);
+In this fashion, the this pointer is assigned the address of the invoking object. (The
+actual details might be more involved.)
+
+6 Class Scope
+In short, within a class declaration or a member function definition you can use an
+unadorned member name (the unqualified name),as when sell() calls the set_tot()
+member function.A constructor name is recognized when it is called because its name is
+the same as the class name. Otherwise, you must use the direct membership operator (.),
+the indirect membership operator (->), or the scope-resolution operator (::), depending
+on the context, when you use a class member name.The following code fragment illustrates
+how identifiers with class scope can be accessed:
+
+7 Abstract Data Types
+The Stock class is pretty specific. Often, however, programmers define classes to represent
+more general concepts. For example, using classes is a good way to implement what computer
+scientists describe as abstract data types (ADTs).As the name suggests,an ADT
+describes a data type in a general fashion without bringing in language or implementation
+details.
+
+Classes are well matched to describing ADTs.The public member function interface
+provides the services described by an ADT,and the class’s private section and the code for
+the class methods provide an implementation that is hidden from clients of the class.
+
+
