@@ -99,3 +99,61 @@ Thus,the scope-resolution operator resolves the identity of the class to which a
 We say that the identifier  update() has class  scope. 
 Other member functions of the  Stock class can, if necessary, use the  update() method without using the scope-resolution operator.
 That’s because they belong to the same class, making update() in scope.
+
+Inline Methods 
+Any function with a definition in the class declaration automatically becomes an inline function.
+You  can, if you like, define a member function outside the class declaration and still make it inline.
+To do so, you  just  use  the  inline qualifier when you define the function in the class implementation section:
+
+The special rules for inline functions require that they be defined in each file in which they are used.
+make sure that inline definitions are available to all files is to include the inline definition in the same header file
+
+Each new object you create contains storage for its own internal variables, the class members.
+But all objects of the same class share the same set of class methods, with just one copy of each method. 
+
+kate.show() and joe.show() both invoke the same method—that is, both execute the same block of code.They just apply the code to different data. 
+Calling a member function is what some OOP languages term  sending a message.
+Thus,sending the same message to two different objects invokes the same method but applies it to two different objects
+
+Using Classes 
+The Client/Server Model 
+OOP programmers often discuss program design in terms of a client/server model. 
+In this conceptualization, the  client is a program that uses the class. 
+The class declaration, including the class methods, constitute the  server, which is a resource that is available to the programs that need it.
+Any changes the server designer makes to the class design should be to details of implementation, not to the interface. 
+
+3 Class Constructors and Destructors 
+Let’s talk about why they are needed and how to write them. 
+One of C++’s aims is to make using class objects similar to using standard types. 
+the code provided so far in this chapter doesn’t let you initialize a  Stock object the way  you  can  an  ordinary  int or struct.
+Stock hot = {"Sukie’s Autos, Inc.", 200, 50.25};   // NO! compile error The reason 
+you can’t initialize a  Stock object this way is because the data parts have private access status
+As you’ve  seen, the only way a program can access the data members is through a member function.
+Therefore, you  need  to  devise  an  appropriate  member  function  if  you’re  to  succeed in initializing an object.
+
+The  constructor prototype and header have an interesting property:
+Although the constructor has no return value, it’s not declared type  void. In fact, a constructor has no declared type.
+
+Default Constructors 
+A default constructor is a constructor that is used to create an object when you don’t provide explicit initialization values.
+if you fail to provide any constructors, C++ automatically supplies a default constructor. 
+It’s an implicit version  of  a  default  constructor, and it does nothing.
+The fact that the default constructor has no arguments reflects the fact that no values appear in the declaration.
+A curious fact about default constructors is that the compiler provides one only if you don’t define any constructors.
+If you provide a nondefault constructor, and don’t provide your own version of a default constructor, then a declaration like this becomes an error: 
+Stock stock1;  // not possible with current constructor 
+If, however, you  wish  to  create  objects  without  explicit  initialization, you  must  define  your  own  default  constructor.
+This  is  a  constructor  that  takes  no  arguments.You can define a default constructor two ways. 
+One is to provide default values for all the arguments to the existing constructor: 
+Stock(const string & co = "Error", int n = 0, double pr = 0.0);
+The second is to use function overloading to define a second constructor, one that has no arguments: 
+Stock(); 
+You  can  have  only  one  default  constructor, so be sure that you don’t do both.
+Thus, a user-provided default constructor typically provides implicit initialization for all member values.
+
+
+
+
+
+
+
