@@ -1,0 +1,58 @@
+0 outline
+(1) Operator overloading
+(2) Friend functions
+(3) Overloading the << operator for output
+(4) State members
+(5) Using rand() to generate random values
+(6) Automatic conversions and type casts for classes
+(7) Class conversion functions
+
+1 Operator Overloading
+Time Time::operator+(const Time & t) const
+{
+    Time sum;
+    sum.minutes = minutes + t.minutes;
+    sum.hours = hours + t.hours + sum.minutes / 60;
+    sum.minutes %= 60;
+    return sum;
+}
+you can invoke the operator+() method by using the same syntax that Sum() uses:
+total = coding.operator+(fixing); // function notation
+But naming the method operator+() also lets you use operator notation:
+total = coding + fixing; // operator notation
+Either notation invokes the operator+() method. Note that with the operator notation,
+the object to the left of the operator (coding, in this case) is the invoking object,and
+the object to the right (fixing, in this case) is the one passed as an argument. 
+Can you add more than two objects? For example, if t1, t2, t3,and t4 are all Time
+objects, can you do the following?
+t4 = t1 + t2 + t3; // valid?
+The way to answer this is to consider how the statement gets translated into function
+calls. Because addition is a left-to-right operator, the statement is first translated to this:
+t4 = t1.operator+(t2 + t3); // valid?
+Then the function argument is itself translated to a function call, giving the following:
+t4 = t1.operator+(t2.operator+(t3)); // valid? YES
+Is this valid? Yes, it is.The function call t2.operator+(t3) returns a Time object that
+represents the sum of t2 and t3.This object then becomes the object of the
+t1.operator+() function call,and that call returns the sum of t1 and the Time object
+that represents the sum of t2 and t3. In short, the final return value is the sum of t1, t2,
+and t3, just as desired.
+
+Overloading Restrictions
+Overloaded operators (with some exceptions) don’t necessarily have to be member functions. 
+However,at least one of the operands has to be a user-defined type.
+
+the limits C++ imposes on user-defined operator overloading:
+a.The overloaded operator must have at least one operand that is a user-defined type.
+  This prevents you from overloading operators for the standard types.
+  Thus, you can’t redefine the minus operator (-) so that it yields the sum of two double values instead of their difference.
+  This restriction preserves program sanity,although it may hinder creative accounting.
+b.You can’t use an operator in a manner that violates the syntax rules for the original
+  operator.
+  
+2. Introducing Friends
+As you’ve seen, C++ controls access to the private portions of a class object.  
+Usually, public class methods serve as the only access, but sometimes this restriction is too rigid to fit particular programming problems. 
+In such cases, C++ provides another form of access: the friend. Friends come in three varieties:
+a. Friend functions
+b. Friend classes
+c. Friend member functions
