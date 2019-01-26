@@ -151,9 +151,60 @@ Stock();
 You  can  have  only  one  default  constructor, so be sure that you don’t do both.
 Thus, a user-provided default constructor typically provides implicit initialization for all member values.
 
+Note
+You may have noticed that Listing 10.6 has an extra brace at the beginning and near the end
+of main(). Automatic variables such as stock1 and stock2 expire when the program exits
+the block that contains their definitions. Without the extra braces, that block would be the
+body of main(), so the destructors would not be called until after main() completed execution.
+In a windowing environment, this would mean that the window would close before the
+last two destructor calls, preventing you from seeing the last two messages. But with the
+braces, the last two destructor calls occur before the return statement is reached, so the
+messages are displayed.
 
+In Listing 10.6, the statement
+Stock stock1("NanoSmart", 12, 20.0);
+creates a Stock object called stock1 and initializes its data members to the indicated values:
+Constructor using NanoSmart called
+Company: NanoSmart Shares: 12
+The following statement uses another syntax to create and initialize an object called
+stock2:
+Stock stock2 = Stock ("Boffo Objects", 2, 2.0)
 
+The second way is to allow the call to the constructor to create a temporary object that
+is then copied to stock2.Then the temporary object is discarded.If the compiler uses this
+option, the destructor is called for the temporary object, producing this output instead:
 
+You can use the constructor for more than initializing a new object. For example, the
+program has this statement in main():
+stock1 = Stock("Nifty Foods", 10, 50.0);
+The stock1 object already exists.Therefore, instead of initializing stock1, this statement
+assigns new values to the object. It does so by having the constructor create a new,
+temporary object and then copying the contents of the new object to stock1.
 
+If you can set object values either through initialization or by assignment, choose initialization.
+It is usually more efficient.
 
+const Member Functions
+Consider the following code snippet:
+const Stock land = Stock("Kludgehorn Properties");
+land.show();
+With current C++, the compiler should object to the second line.Why? Because the
+code for show() fails to guarantee that it won’t modify the invoking object, which,
+because it is const, should not be altered.We’ve solved this kind of problem before by
+declaring a function’s argument to be a const reference or a pointer to const. But there’s
+a syntax problem:The show() method doesn’t have any arguments for const to qualify.
+Instead, the object it uses is provided implicitly by the method invocation.What is needed
+is a new syntax, one that says a function promises not to modify the invoking object.The
+C++ solution is to place the const keyword after the function parentheses.That is, the
+show() declaration should look like this:
+void show() const; // promises not to change invoking object
+Similarly, the beginning of the function definition should look like this:
+void stock::show() const // promises not to change invoking object
+Class functions declared and defined this way are called const member functions. Just
+as you should use const references and pointers as formal function arguments whenever
+appropriate, you should make class methods const whenever they don’t modify the invoking object.
+We’ll follow this rule from here on out.
+
+You can have only one destructor per class. It has no
+return type (not even void), it has no arguments,and its name is the class name preceded by a tilde
 
