@@ -56,3 +56,96 @@ In such cases, C++ provides another form of access: the friend. Friends come in 
 a. Friend functions
 b. Friend classes
 c. Friend member functions
+
+A Common Kind of Friend: Overloading the << Operator
+The First Version of Overloading <<
+To teach the Time class to use cout, you can use a friend function.
+Why? Because a statement like the following uses two objects, with the ostream class object (cout) first:
+cout << trip;
+
+If you use a Time member function to overload <<, the Time object would come first,
+as it did when you overloaded the * operator with a member function.
+That means you would have to use the << operator this way:
+trip << cout; // if operator<<() were a Time member function
+This would be confusing. But by using a friend function, you can overload the operator this way:
+void operator<<(ostream & os, const Time & t)
+{
+    os << t.hours << " hours, " << t.minutes << " minutes";
+}
+This lets you use
+cout << trip;
+to print data in the following format:
+4 hours, 23 minutes
+
+Friend or No Friend?
+The new Time class declaration makes the operator<<() function a friend function to the
+Time class. But this function, although not inimical to the ostream class, is not a friend to
+that class. The operator<<() function takes an ostream argument and a Time argument,
+so it might seem that this function has to be a friend to both classes. If you look at the code
+for the function, however, you’ll notice that the function accesses individual members of the
+Time object but only uses the ostream object as a whole. Because operator<<()
+accesses private Time object members directly, it has to be a friend to the Time class. But
+because it does not directly access private ostream object members, the function does not
+have to be a friend to the ostream class. That’s nice because it means you don’t have to
+tinker with the ostream definition.
+
+C++ reads the output statement from left to right, meaning it is equivalent to the
+following:
+(cout << x) << y;
+The << operator,as defined in iostream, takes an ostream object to its left. Clearly, the
+expression cout << x satisfies that requirement because cout is an ostream object.
+
+
+Tip
+In general, to overload the << operator to display an object of class c_name, you use a
+friend function with a definition in this form:
+ostream & operator<<(ostream & os, const c_name & obj)
+{
+os << ... ; // display object contents
+return os;
+}
+
+#include <iostream>
+class comp
+{
+private:
+	double real;
+	double image;
+public:
+	comp(double ireal, double iimage);
+	comp operator+(const comp & comp1);
+	friend std::ostream & operator<<(std::ostream & os, const comp & t);
+};
+
+
+int main()
+{
+	comp a = comp(1, 1);
+	comp b = comp(2, 3);
+	comp c = a + b;
+	std::cout << c;
+	return 0;
+}
+
+comp::comp(double ireal, double iimage)
+{
+	real = ireal;
+	image = iimage;
+}
+comp comp::operator+(const comp & comp1)
+{
+	comp sum(0, 0);
+	sum.real = this->real + comp1.real;
+	sum.image = this->image + comp1.image;
+	return sum;
+}
+
+std::ostream & operator<<(std::ostream & os, const comp & t)
+{
+	os << t.real << " + " << t.image << std::endl;
+	return os;
+}
+
+
+
+
