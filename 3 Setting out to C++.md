@@ -24,7 +24,8 @@ double slash //
 C++ also recognizes C comments, which are enclosed between /* and */ symbols.
 try sticking to the C++ style
 
-4 The c++ preprocessor and iostream file
+4 The c++ preprocessor and iostream file.  
+C++, like C, uses a preprocessor.This is a program that processes a source file before the main compilation takes place. 
 #include <iostream>
 This directive causes the preprocessor to add the contents of the iostream file to your program.
 In essence, replace
@@ -86,8 +87,21 @@ convention, hallmark
 
 #include <iostream> causes the contents of the iostream file to be substituted for this directive before final compilation.
 
+Namespaces
+If you use iostream instead of iostream.h, you should use the following namespace directive to make the definitions in iostream available to your program:
+using namespace std;
+This is called a using directive.   
 
+ One potential problem is that you might use two prepackaged prod- ucts that both have, say, a function called wanda(). If you then use the wanda() function, the compiler won’t know which version you mean.   
+ The namespace facility lets a vendor package its wares in a unit called a namespace so that you can use the name of a namespace to indicate which vendor’s product you want. So Microflop Industries could place its defi- nitions in a namespace called Microflop.
 
+In this spirit, the classes, functions, and variables that are a standard component of C++ compilers are now placed in a namespace called std.
+
+The preferred approaches are to use the std:: qualifier or to use something called a using declaration to make just particular names available:
+using std::cout; 
+using std::endl; 
+using std::cin;
+// make cout available // make endl available // make cin available
 
 
 
