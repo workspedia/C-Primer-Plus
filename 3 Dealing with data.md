@@ -87,6 +87,10 @@ scaling factor, operands, modulus 19 % 5 = 4
 module modulus model
 *** order of operation: operator precedence and associativity
 
+
+Division Diversions
+If both operands are integers, C++ performs integer division.That means any fractional part of the answer is discarded, mak- ing the result an integer. If one or both operands are floating-point values, the fractional part is kept, making the result floating-point. 
+
 4 type conversions
 profusion
 (1) conversion on initialization and assignment
@@ -96,8 +100,19 @@ C++ uses truncation (discarding the fractional part) and not rounding (finding t
 *** short fowl = chickens + ducks;
 
 
+Type Casts
+C++ empowers you to force type conversions explicitly via the type cast mechanism. (C++ recognizes the need for type rules, and it also recognizes the need to occasionally override those rules.) The type cast comes in two forms. For example, to convert an int value stored in a variable called thorn to type long, you can use either of the following expressions:
+(long) thorn // returns a type long conversion of thorn 
+long (thorn) // returns a type long conversion of thorn
 
 
+auto Declarations in C++11
+C++11 introduces a facility that allows the compiler to deduce a type from the type of an initialization value. For this purpose it redefines the meaning of auto, a keyword dat- ing back to C, but one hardly ever used. (Chapter 9 discusses the previous meaning of auto.) Just use auto instead of the type name in an initializing declaration, and the com- piler assigns the variable the same type as that of the initializer:
+auto n = 100; // n is int
+auto x = 1.5; // x is double auto y = 1.3e12L; // y is long double
+
+Automatic type deduction becomes much more useful when dealing with compli- cated types, such as those in the STL (Standard Template Library). For example, C++98 code might have this:
+std::vector<double> scores; std::vector<double>::iterator pv = scores.begin();
 
 
 
